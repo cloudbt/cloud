@@ -72,3 +72,7 @@ phases:
       #- git push https://${GITHUB_PAT_Terraform}@github.com/yamazoon0207/test-terraform.git main:main
       #- git push git@github.com:cloudbt/blue.git main:main
       - git push git@github.com:cloudbtjp/yellow.git main:main
+
+
+      ![image](https://github.com/user-attachments/assets/47be2ff0-ee8f-4e26-85e5-07b1458a0306)
+
