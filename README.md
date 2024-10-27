@@ -39,3 +39,36 @@ CodeBuild doesn't natively support deploy keys. It is on our product backlog and
 In order to use your existing deploy key in CodeBuild, please follow the instruction that Adrian has highlighted in https://adrianhesketh.com/2018/05/02/go-private-repositories-and-aws-codebuild/. You will need to setup the key in parameter-store and use that in your buildspec.
 
 You can use the source type as "no_source", since you would be doing the source cloning with the deploy key in this case.
+
+
+version: 0.2
+env:
+  secrets-manager:
+    INFRA_DELOY_KEY: dev/asp/SSH_PRIVATE_KEY:SSH_PRIVATE_KEY
+
+phases:
+  pre_build:
+    commands:
+      - mkdir -p ~/.ssh && chmod 0700 ~/.ssh
+      - echo "${#INFRA_DELOY_KEY}"
+      - echo "test" | base64
+      - echo "${INFRA_DELOY_KEY}" | base64 -d > ~/.ssh/id_rsa && chmod 0400 ~/.ssh/id_rsa
+      - md5sum ~/.ssh/id_rsa
+      - ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - ls -lat
+      - cat .git/config
+      - git config --global user.name "cloudbt"
+      - git config --global user.email "hzwang562@gmail.com"
+      
+  build:
+    commands:
+      #- touch "test_file.txt"
+      #- git add "test_file.txt"
+      #- git commit -m "add test_file.txt"
+      - rm -f "test_file.txt"
+      - git commit -am "delete test_file.txt"
+  post_build:
+    commands:
+      #- git push https://${GITHUB_PAT_Terraform}@github.com/yamazoon0207/test-terraform.git main:main
+      #- git push git@github.com:cloudbt/blue.git main:main
+      - git push git@github.com:cloudbtjp/yellow.git main:main
