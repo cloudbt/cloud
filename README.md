@@ -1,4 +1,7 @@
 # cloud
+
+![image](https://github.com/user-attachments/assets/47be2ff0-ee8f-4e26-85e5-07b1458a0306)
+
 ssh-keygen -t rsa -b 4096 -N '' -f id_github -C "email"
 
 cat id_github |base64 |tr -d "\n" |base64 -d
@@ -74,5 +77,5 @@ phases:
       - git push git@github.com:cloudbtjp/yellow.git main:main
 
 
-      ![image](https://github.com/user-attachments/assets/47be2ff0-ee8f-4e26-85e5-07b1458a0306)
+      
 
