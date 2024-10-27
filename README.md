@@ -1,5 +1,14 @@
 # cloud
+ssh-keygen -t rsa -b 4096 -N '' -f id_github -C "emaol"
+cat id_github |base64 |tr -d "\n" |base64 -d
 
+
+KEYPAIR_NAME=INFRA-DELOY-KEY
+$ aws secretsmanager create-secret \
+    --name ${KEYPAIR_NAME} \
+    --secret-binary file://.SSHKEY
+
+    
 https://blog.serverworks.co.jp/CodeBuild_Github_repo
 
 
