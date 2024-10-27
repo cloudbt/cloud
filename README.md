@@ -4,7 +4,7 @@
 
 ssh-keygen -t rsa -b 4096 -N '' -f id_github -C "email"
 
-cat id_github |base64 |tr -d "\n" |base64 -d
+cat id_github |base64 |tr -d '\n'
 
 
 KEYPAIR_NAME=INFRA-DELOY-KEY
