@@ -1,5 +1,6 @@
 # cloud
-ssh-keygen -t rsa -b 4096 -N '' -f id_github -C "emaol"
+ssh-keygen -t rsa -b 4096 -N '' -f id_github -C "email"
+
 cat id_github |base64 |tr -d "\n" |base64 -d
 
 
