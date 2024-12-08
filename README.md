@@ -1,13 +1,21 @@
 ```
-          EXIT_CODE=0
-          snyk code test || EXIT_CODE=$?
-          echo "Exit code: $EXIT_CODE"
-          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
-          if [ "$EXIT_CODE" = "3" ]; then
-            exit 0
-          else
-            exit $EXIT_CODE
-          fi
+  input_transformer {
+    input_paths = {
+      username   = "$.detail.requestParameters.userName"
+      creator    = "$.detail.userIdentity.arn"
+      timestamp  = "$.time"
+      source_ip  = "$.detail.sourceIPAddress"
+      account_id = "$.account"
+    }
+    input_template = <<-EOT
+      "新しいIAMユーザーが作成されたことを検知しました。詳細は以下をご確認ください。"
+      "- 作成されたユーザー名: <username>"
+      "- 作成者: <creator>"
+      "- 作成日時(UTC): <timestamp>"
+      "- 発信元IP: <source_ip>"
+      "- AWSアカウントID: <account_id>"
+    EOT
+  }
 ```
 
 ```
