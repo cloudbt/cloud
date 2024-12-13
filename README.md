@@ -1,21 +1,13 @@
 ```
-  input_transformer {
-    input_paths = {
-      username   = "$.detail.requestParameters.userName"
-      creator    = "$.detail.userIdentity.arn"
-      timestamp  = "$.time"
-      source_ip  = "$.detail.sourceIPAddress"
-      account_id = "$.account"
-    }
-    input_template = <<-EOT
-      "新しいIAMユーザーが作成されたことを検知しました。詳細は以下をご確認ください。"
-      "- 作成されたユーザー名: <username>"
-      "- 作成者: <creator>"
-      "- 作成日時(UTC): <timestamp>"
-      "- 発信元IP: <source_ip>"
-      "- AWSアカウントID: <account_id>"
-    EOT
-  }
+
+Thank you for creating the procedure.
+I confirmed with Mr. Tokuyama that it is important to note that after executing a scan with Microsoft Purview, a metadata registration process is always required. Since that procedure is currently not described in the document, please add the following two points to the procedure.
+
+A clear explanation that metadata registration is mandatory after each scan.
+Detailed instructions for performing metadata registration using Python tools.
+
+
+Please confirm with Mr. A as he is familiar with metadata registration using Python tools
 ```
 
 ```
