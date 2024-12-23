@@ -1,13 +1,7 @@
 ```
-
-Thank you for creating the procedure.
-I confirmed with Mr. Tokuyama that it is important to note that after executing a scan with Microsoft Purview, a metadata registration process is always required. Since that procedure is currently not described in the document, please add the following two points to the procedure.
-
-A clear explanation that metadata registration is mandatory after each scan.
-Detailed instructions for performing metadata registration using Python tools.
-
-
-Please confirm with Mr. A as he is familiar with metadata registration using Python tools
+Thank you for the document.
+We have noticed that the procedures for re-scanning and re-registration are currently provided in separate files. This setup has been noted as inefficient, as it requires referring to multiple documents and increases the risk of missing steps.
+To prevent potential omissions and improve operational efficiency,  would it be possible to consolidate all relevant procedures from re-scan to re-registration into a single document.
 ```
 
 ```
