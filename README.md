@@ -1,21 +1,37 @@
-```
-Thank you for the document.
-We have noticed that the procedures for re-scanning and re-registration are currently provided in separate files. This setup has been noted as inefficient, as it requires referring to multiple documents and increases the risk of missing steps.
-To prevent potential omissions and improve operational efficiency,  would it be possible to consolidate all relevant procedures from re-scan to re-registration into a single document.
-```
+name: UbuntuInitialSetup
+description: Initial setup for Ubuntu including Japanese language support and timezone settings
+schemaVersion: 1.0
+phases:
+  - name: build
+    steps:
+      - name: UpdatePackages
+        action: ExecuteBash
+        inputs:
+          commands:
+            - sudo apt update -y
+            - sudo apt upgrade -y
 
-```
-graph TD
-    A[Start] --> B[Read metadata（include Table and Column name） from Excel]
-    B --> C[Search for Table Asset GUID by Table Name]
-    C -->|Found| D[Get Table` Columns（=table asset Schema）]
-    C -->|Not Found| E[Log Error and Skip]
-    D --> F[Find Column Asset GUID by Column name]
-    F -->|Found| G[Register/Set Column Managed Attributes]
-    F -->|Not Found| E
-    G --> H[Success]
-    E --> H
-    H -->|More Rows| B
-    H -->|Done| I[End]
+      - name: InstallJapaneseLanguageSupport
+        action: ExecuteBash
+        inputs:
+          commands:
+            - sudo apt-get install -y language-pack-ja-base language-pack-ja ibus-mozc
+            - sudo apt-get install -y fonts-takao-pgothic fonts-takao-gothic fonts-takao-mincho
 
-```
+      - name: ConfigureLocaleAndTimezone
+        action: ExecuteBash
+        inputs:
+          commands:
+            - sudo localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
+            - source /etc/default/locale
+            - sudo timedatectl set-timezone Asia/Tokyo
+
+      - name: VerifySettings
+        action: ExecuteBash
+        inputs:
+          commands:
+            - locale
+            - date
+            - timedatectl
+
+parameters: []
