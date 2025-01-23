@@ -1,37 +1,26 @@
-name: UbuntuInitialSetup
-description: Initial setup for Ubuntu including Japanese language support and timezone settings
-schemaVersion: 1.0
-phases:
-  - name: build
-    steps:
-      - name: UpdatePackages
-        action: ExecuteBash
-        inputs:
-          commands:
-            - sudo apt update -y
-            - sudo apt upgrade -y
+  # データ移行の選択肢と比較
 
-      - name: InstallJapaneseLanguageSupport
-        action: ExecuteBash
-        inputs:
-          commands:
-            - sudo apt-get install -y language-pack-ja-base language-pack-ja ibus-mozc
-            - sudo apt-get install -y fonts-takao-pgothic fonts-takao-gothic fonts-takao-mincho
+## 1. オンプレ（社内ネットワーク上）から移行
 
-      - name: ConfigureLocaleAndTimezone
-        action: ExecuteBash
-        inputs:
-          commands:
-            - sudo localectl set-locale LANG=ja_JP.UTF-8 LANGUAGE="ja_JP:ja"
-            - source /etc/default/locale
-            - sudo timedatectl set-timezone Asia/Tokyo
+### メリット
+- 追加コスト不要
+- スケジュール調整が容易
 
-      - name: VerifySettings
-        action: ExecuteBash
-        inputs:
-          commands:
-            - locale
-            - date
-            - timedatectl
+### デメリット
+- 大容量データで回線負荷や速度低下の可能性
+- セキュリティ設定の手間（ファイアウォールなど）
+- 移行時間が長引く可能性
 
-parameters: []
+---
+
+## 2. Azure上のVMから移行
+
+### メリット
+- ネットワーク負荷が少ない
+- 高速かつ安定した移行が可能
+- 将来の運用に活用可能
+
+### デメリット
+- VM構築・運用コストが発生
+- セキュリティ設定の工数が増加
+- 移行中の監視体制が必要
