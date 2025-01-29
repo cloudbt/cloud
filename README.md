@@ -17,3 +17,8 @@ SSMA は異種DB → SQL Serverへの移行支援がメインであり、SQL Ser
 
 
 https://learn.microsoft.com/ja-jp/azure/azure-sql/database/database-export?view=azuresql
+
+
+
+BACPAC 形式でエクスポートする手段があります。これもオンラインで取得できるため、ダウンタイムはほぼ不要です。
+大規模なデータベースで BACPAC をエクスポートする場合には、パフォーマンス面の影響を考慮し、オフピーク時間帯など負荷の少ないタイミングで実施してください。
