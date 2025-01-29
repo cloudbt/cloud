@@ -14,3 +14,6 @@ Active Geo-Replication / Auto-Failover Groups
 
 DMS を利用したオンライン移行は、移行開始後に継続的に差分レプリケーションを行い、最終切り替え時のみ数分程度のダウンタイムに抑えることが可能です。
 SSMA は異種DB → SQL Serverへの移行支援がメインであり、SQL Server 同士、あるいは Azure SQL Database 間のオンライン差分同期は標準機能として持ちません。
+
+
+https://learn.microsoft.com/ja-jp/azure/azure-sql/database/database-export?view=azuresql
