@@ -1,4 +1,10 @@
 
+
+```
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+ ```   
 Azure VMの要件とコスト見積もりについて、以下のように詳細を検討させていただきます：
 必要なVMスペックの推奨構成：
 
