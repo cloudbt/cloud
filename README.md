@@ -1,4 +1,7 @@
 
+https://learn.microsoft.com/ja-jp/azure/private-link/tutorial-private-endpoint-sql-portal
+
+
 https://pypi.org/project/grpcio/
 
 https://github.com/grpc/grpc/issues/33063
