@@ -7,7 +7,14 @@ https://pypi.org/project/grpcio/
 
 https://github.com/grpc/grpc/issues/33063
 
+
 ```
+ou@DESKTOP-2OMJK9F:~/a$ docker run --rm gcr.io/datadoghq/agent:7.46.0 python --version
+Python 3.8.17
+ou@DESKTOP-2OMJK9F:~/a$ docker run --rm gcr.io/datadoghq/agent:7.62.0 python --version
+Python 3.12.6
+
+
 # As the NVML integration is a community integration, it is not packaged with the Agent image by default. A custom image with the packaged integration should therefore be used in containerized environments.
 # Setup taken from https://docs.datadoghq.com/agent/guide/use-community-integrations/?tab=docker
 
