@@ -1,6 +1,41 @@
 https://azure.com/e/cba3c5bbfb8f4549a8df006d97664f1c
 
+```
+def add_row_numbers(sql_text):
+    # 各行を分割
+    lines = sql_text.strip().split('UNION ALL')
+    
+    # 各行をトリムして番号を追加
+    numbered_lines = []
+    for i, line in enumerate(lines, 1):
+        # 行をトリムして末尾のカンマを処理
+        line = line.strip()
+        if line.endswith(','):
+            line = line[:-1]
+            
+        # コメントがある行の処理
+        comment_parts = line.split('--')
+        if len(comment_parts) > 1:
+            base_sql = comment_parts[0].strip()
+            comment = '--' + comment_parts[1]
+            numbered_lines.append(f"{base_sql}, {i} {comment}")
+        else:
+            numbered_lines.append(f"{line}, {i}")
+    
+    # UNION ALLで結合して返す
+    return ' UNION ALL\n'.join(numbered_lines)
 
+# 入力SQL
+sql_input = """
+SELECT 'A', 'A', UNION ALL 
+SELECT 'B', 'B',  UNION ALL 
+SELECT 'C', 'C', -- 他のスキーマ・テーブルペアを追加
+"""
+
+# 実行して結果を表示
+result = add_row_numbers(sql_input)
+print(result)
+```
 
 ```
 WITH TablePairs (SchemaName, TableName, RowNum) AS (
