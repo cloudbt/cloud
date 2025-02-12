@@ -1,7 +1,10 @@
 https://azure.com/e/cba3c5bbfb8f4549a8df006d97664f1c
 
-
-
+```
+SELECT COUNT(*) AS TableExists
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_SCHEMA = 'A' AND TABLE_NAME = 'A';
+```
 
 ```
 ou@DESKTOP-2OMJK9F:~/a$ docker run --rm gcr.io/datadoghq/agent:7.46.0 python --version
