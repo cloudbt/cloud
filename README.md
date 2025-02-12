@@ -1,11 +1,6 @@
+https://azure.com/e/cba3c5bbfb8f4549a8df006d97664f1c
 
-https://learn.microsoft.com/ja-jp/azure/private-link/tutorial-private-endpoint-sql-portal
-https://learn.microsoft.com/ja-jp/azure/nat-gateway/nat-overview
-https://learn.microsoft.com/ja-jp/azure/nat-gateway/tutorial-migrate-ilip-nat
 
-https://pypi.org/project/grpcio/
-
-https://github.com/grpc/grpc/issues/33063
 
 
 ```
