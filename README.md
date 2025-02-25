@@ -1,40 +1,22 @@
 https://azure.com/e/cba3c5bbfb8f4549a8df006d97664f1c
 
 ```
-def add_row_numbers(sql_text):
-    # 各行を分割
-    lines = sql_text.strip().split('UNION ALL')
-    
-    # 各行をトリムして番号を追加
-    numbered_lines = []
-    for i, line in enumerate(lines, 1):
-        # 行をトリムして末尾のカンマを処理
-        line = line.strip()
-        if line.endswith(','):
-            line = line[:-1]
-            
-        # コメントがある行の処理
-        comment_parts = line.split('--')
-        if len(comment_parts) > 1:
-            base_sql = comment_parts[0].strip()
-            comment = '--' + comment_parts[1]
-            numbered_lines.append(f"{base_sql}, {i} {comment}")
-        else:
-            numbered_lines.append(f"{line}, {i}")
-    
-    # UNION ALLで結合して返す
-    return ' UNION ALL\n'.join(numbered_lines)
+リクエスト数のコスト
 
-# 入力SQL
-sql_input = """
-SELECT 'A', 'A', UNION ALL 
-SELECT 'B', 'B',  UNION ALL 
-SELECT 'C', 'C', -- 他のスキーマ・テーブルペアを追加
-"""
+100万リクエストを超えた場合、追加リクエストには料金が発生します
+東京リージョンでは、100万リクエストを超える分は100万リクエストあたり約0.20ドルです
+2000リクエストの場合：2000 ÷ 1,000,000 × 0.20ドル ≈ 0.0004ドル
+日本円に換算（1ドル≒149円と仮定）：0.0004ドル × 149円 ≈ 0.06円
 
-# 実行して結果を表示
-result = add_row_numbers(sql_input)
-print(result)
+実行時間のコスト
+
+実行時間：2000回 × 1.5秒 = 3000秒
+128MBメモリ（0.125GB）を使用すると仮定：0.125GB × 3000秒 = 375 GB秒
+東京リージョンのLambda料金：約0.0000167ドル/GB秒
+日本円に換算：375 GB秒 × 0.0000167ドル/GB秒 × 149円/ドル ≈ 0.93円
+
+ここでは400,000 GB秒の無料枠内であると仮定します。もし無料枠も超えている場合は、この実行時間のコストも加算されます。
+総コスト見積もり（100万リクエスト超過の場合）：約0.06円（リクエスト）+ 0円（実行時間、無料枠内）= 約0.06円
 ```
 
 ```
