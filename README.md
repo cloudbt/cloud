@@ -1,49 +1,63 @@
 # container-build
 ```
-{
-  "source": ["github.com"],
-  "detail-type": ["push"],
-  "detail": {
-    "ref": ["refs/heads/main"],
-    "$or": [{
-      "head_commit": {
-        "added": [{
-          "prefix": "dev/asp/iam-createuser-notification/"
-        }]
-      }
-    }, {
-      "head_commit": {
-        "added": [{
-          "prefix": "module/iam-createuser-notification/"
-        }]
-      }
-    }, {
-      "head_commit": {
-        "removed": [{
-          "prefix": "dev/asp/iam-createuser-notification/"
-        }]
-      }
-    }, {
-      "head_commit": {
-        "removed": [{
-          "prefix": "module/iam-createuser-notification/"
-        }]
-      }
-    }, {
-      "head_commit": {
-        "modified": [{
-          "prefix": "dev/asp/iam-createuser-notification/"
-        }]
-      }
-    }, {
-      "head_commit": {
-        "modified": [{
-          "prefix": "module/iam-createuser-notification/"
-        }]
-      }
-    }]
-  }
+# Check if Azure CLI is installed and get the path
+function Get-AzureCLIPath {
+    $azPath = $null
+    
+    # Check if az is in PATH
+    try {
+        $azPath = (Get-Command az -ErrorAction Stop).Source
+        Write-Host "Found Azure CLI at: $azPath"
+        return $azPath
+    } catch {
+        Write-Host "Azure CLI not found in PATH"
+    }
+    
+    # Check common installation locations
+    $commonPaths = @(
+        "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\az.cmd",
+        "C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd"
+    )
+    
+    foreach ($path in $commonPaths) {
+        if (Test-Path $path) {
+            Write-Host "Found Azure CLI at: $path"
+            return $path
+        }
+    }
+    
+    # Azure CLI not found, download and install
+    Write-Host "Azure CLI not found. Downloading..."
+    $downloadUrl = "https://azcliprod.blob.core.windows.net/zip/azure-cli-2.70.0-x64.zip"
+    $downloadPath = "$env:TEMP\azure-cli.zip"
+    $extractPath = "C:\azure-cli"
+    
+    # Create directory if it doesn't exist
+    if (-not (Test-Path $extractPath)) {
+        New-Item -ItemType Directory -Path $extractPath -Force | Out-Null
+    }
+    
+    # Download Azure CLI
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $downloadPath
+    
+    # Extract ZIP
+    Write-Host "Extracting Azure CLI to $extractPath..."
+    Expand-Archive -Path $downloadPath -DestinationPath $extractPath -Force
+    
+    # Find az.cmd in the extracted files
+    $azPath = Get-ChildItem -Path $extractPath -Recurse -Filter "az.cmd" | Select-Object -First 1 -ExpandProperty FullName
+    
+    if ($azPath) {
+        Write-Host "Azure CLI extracted to: $azPath"
+        return $azPath
+    } else {
+        Write-Error "Failed to find az.cmd in the extracted files. Please install Azure CLI manually."
+        exit 1
+    }
 }
+
+# Get Azure CLI path
+$AZCLI = Get-AzureCLIPath
 ```
 
 ## tf-apply
