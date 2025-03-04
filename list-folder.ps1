@@ -16,8 +16,9 @@ $files = Get-ChildItem -Path $FolderPath -File -Recurse
 $fileCount = $files.Count
 
 $files | 
-    Sort-Object -Property Name | 
-    Select-Object -ExpandProperty Name |
+    Sort-Object -Property FullName | 
+    Select-Object @{ Name="Path"; Expression={ $_.FullName.Replace((Convert-Path $FolderPath), "").TrimStart('\') } } |
+    ForEach-Object { $_.Path } |
     Out-File -FilePath $outputFile -Force -Encoding UTF8
 
 Write-Host "Total files found: $($fileCount.ToString().PadRight(10))"

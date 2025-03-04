@@ -34,7 +34,6 @@ az storage blob list `
     --connection-string $connectionString `
     --query "[].name" `
     --output tsv `
-| ForEach-Object { Split-Path $_ -Leaf } `
 | Out-File -FilePath $outputFile -Encoding utf8
 
 Write-Host "Total files found: $(Get-Content $outputFile | Measure-Object | Select-Object -ExpandProperty Count)"
