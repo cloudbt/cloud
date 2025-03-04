@@ -51,3 +51,37 @@ $fileCount = $filteredBlobs.Count
 Write-Host "Total files with .txt, .xlsm, or .xls extensions found: $fileCount"
 Write-Host "File list saved to: $outputFile"
 ```
+
+
+```
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$FolderPath
+)
+
+$scriptPath = $PSScriptRoot
+$outputFile = Join-Path $scriptPath "FolderResult.csv"
+
+if (-not (Test-Path -Path $FolderPath -PathType Container)) {
+    Write-Error "The specified folder does not exist: $FolderPath"
+    exit 1
+}
+
+$files = Get-ChildItem -Path $FolderPath -File -Recurse
+$fileCount = $files.Count
+
+# ヘッダー行を作成
+"ファイル名,ファイルサイズ" | Out-File -FilePath $outputFile -Force -Encoding UTF8
+
+# ファイル名とサイズを収集してCSVに出力
+$files | 
+    Sort-Object -Property FullName | 
+    ForEach-Object { 
+        $relativePath = $_.FullName.Replace((Convert-Path $FolderPath), "").TrimStart('\')
+        "$relativePath,$($_.Length)" 
+    } |
+    Out-File -FilePath $outputFile -Append -Encoding UTF8
+
+Write-Host "Total files found: $($fileCount.ToString().PadRight(10))"
+Write-Host "File list saved to: $outputFile"
+```
