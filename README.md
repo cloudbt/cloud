@@ -1,6 +1,50 @@
 ```
-SqlPackage.exe /Action:Import /SourceFile:"C:\Path\To\Schema1.bacpac" /TargetServerName:"YourServer" /TargetDatabaseName:"ExistingDatabase" /TargetUser:"Username" /TargetPassword:"Password"```
-```
+# 各フィールドごとにXMLファイルを生成
+foreach ($field in $fields) {
+    # ファイル名を定義
+    $fileName = Join-Path -Path $outputPath -ChildPath "$($field.fullName).field-meta.xml"
+    
+    # XMLを文字列として生成
+    $stringWriter = New-Object System.IO.StringWriter
+    $stringWriter.NewLine = "`n"  # LF改行を使用
+    
+    $settings = New-Object System.Xml.XmlWriterSettings
+    $settings.Indent = $true
+    $settings.OmitXmlDeclaration = $false
+    $settings.Encoding = [System.Text.Encoding]::UTF8
+    $settings.NewLineChars = "`n"  # LF改行を使用
+    
+    $writer = [System.Xml.XmlWriter]::Create($stringWriter, $settings)
+    
+    # XML宣言を追加
+    $writer.WriteStartDocument()
+    
+    # CustomField要素を作成（namespaceを指定）
+    $writer.WriteStartElement("CustomField", $namespaceUri)
+    
+    # 子要素（namespace無し）
+    $writer.WriteElementString("fullName", $field.fullName)
+    $writer.WriteElementString("label", $field.label)
+    $writer.WriteElementString("required", $field.required.ToString().ToLower())
+    $writer.WriteElementString("trackFeedHistory", $field.trackFeedHistory.ToString().ToLower())
+    $writer.WriteElementString("type", $field.type)
+    
+    # CustomField要素を閉じる
+    $writer.WriteEndElement()
+    
+    # ドキュメントを閉じて保存
+    $writer.WriteEndDocument()
+    $writer.Flush()
+    $writer.Close()
+    
+    # StringWriterから文字列を取得
+    $xmlContent = $stringWriter.ToString()
+    $stringWriter.Close()
+    
+    # UTF-8（BOMなし）でファイルに書き込み
+    $utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($fileName, $xmlContent, $utf8NoBomEncoding)
+}```
 解決策としてのオプション：
 
 /p:DatabaseLockTimeout パラメータを設定して長時間のロックを許可
